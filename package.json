@@ -1,0 +1,10 @@
+{
+  "name": "healthhack2019",
+  "version": "1.0.0",
+  "dependencies": {
+    "routific": "0.0.3",
+    "axios": "0.19.0",
+    "firebase-admin": "8.2.0"
+  },
+  "devDependencies": {}
+}

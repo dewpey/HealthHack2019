@@ -1,0 +1,174 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "c929395e-612c-4372-aa62-731f37087b89": {
+        "id": "c929395e-612c-4372-aa62-731f37087b89",
+        "parent": null,
+        "name": "healthhack2019",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "542dfa80-bbe8-47ca-9422-4a25763be8f9",
+          "9a766ac7-ddba-4b56-a1b6-945c06bf7497",
+          "294bf969-768f-49f2-be20-264e55d77c19",
+          "9ae600ab-8911-494e-8c82-b0dc4c7a6983"
+        ],
+        "isRemovable": false,
+        "filePath": "healthhack2019"
+      },
+      "542dfa80-bbe8-47ca-9422-4a25763be8f9": {
+        "id": "542dfa80-bbe8-47ca-9422-4a25763be8f9",
+        "parent": "c929395e-612c-4372-aa62-731f37087b89",
+        "name": "lambda.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "healthhack2019/lambda.js",
+        "code": "const Routific = require('routific')\nconst axios = require('axios');\nconst admin = require(\"firebase-admin\");\n// Fetch the service account key JSON file contents\nconst serviceAccount = require(\"./key.json\");\n\n// Initialize the app with a service account, granting admin privileges\nadmin.initializeApp({\n  credential: admin.credential.cert(serviceAccount),\n  databaseURL: \"https://healthhack2019-e97d2.firebaseio.com/\"\n});\n\n// As an admin, the app has access to read and write all data, regardless of Security Rules\nconst db = admin.database();\nconst ref = db.ref(\"current\");\n\n\n\nexports.handler = function (event, context, callback) {\n    // This is your demo token\n    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDMzNTVlMTc2ODM0YjdhOWZhM2Y1ZDMiLCJpYXQiOjE1NjM2NDU0MDl9.z-gI7dkl-6f-9UrqlBoe-52tq8j-rNEjtTBzn1oWUCE'\n    var config = {\n        headers: { 'Authorization': \"bearer \" + token }\n    };\n    const options = { token: token }\n    const client = new Routific.Client(options);\n\n    // Step 3: Initialize VRP service\n    const vrp = new Routific.Vrp();\n\n    const visits = [\n        {\n            id: \"1\",\n            location: { name: \"Jack Smith\", address: \"24898 State Hwy AB, Essex, MO 63846\" },\n            start: \"9:00\",\n            end: \"17:00\",\n            duration: 3\n        },\n        {\n            id: \"2\",\n            location: { name: \"Bob Smith\", address: \"25021 Walnut St, Bell City, MO 63735\" },\n            start: \"9:00\",\n            end: \"17:00\",\n            duration: 3\n        },\n        {\n            id: \"3\",\n            location: { name: \"Jeff Smith\", address: \"25498 MO-91, Bell City, MO 63735\" },\n            start: \"9:00\",\n            end: \"17:00\",\n            duration: 3\n        }\n    ]\n\n    visits.push({\n        id: \"4\",\n        location: { name: event.body.name, address: event.body.address },\n        start: \"9:00\",\n        end: \"17:00\",\n        duration: 3\n    })\n    /*\n        var bodyParameters = {\n            \"name\": \"Bluechew Delivery\",\n            \"date\": \"2019-10-01\",\n            \"drivers\": [\n                {\n                    \"name\": \"L & S Pharmacy\",\n                    \"start_location\": {\n                        \"address\": \"406 S Main St, Charleston, MO 63834, USA\",\n                    },\n                    \"end_location\": {\n                        \"address\": \"406 S Main St, Charleston, MO 63834, USA\",\n                    },\n                    \"shift_start\": \"09:00\",\n                    \"shift_end\": \"17:00\",\n                    \"phone_number\": \"+15736833307\",\n                    \"speed\": 1,\n                    \"capacity\": 35\n                },\n                {\n                    \"name\": \"Sterling Pharmacy\",\n                    \"start_location\": {\n                        \"address\": \"808 Hunter Ave #1a, Sikeston, MO 63801, USA\",\n                    },\n                    \"end_location\": {\n                        \"address\": \"808 Hunter Ave #1a, Sikeston, MO 63801, USA\",\n                    },\n                    \"shift_start\": \"09:00\",\n                    \"shift_end\": \"17:00\",\n                    \"phone_number\": \"+15734751900\",\n                    \"speed\": 1,\n                    \"capacity\": 35\n                },\n                {\n                    \"name\": \"Town Pharmacy\",\n                    \"start_location\": {\n                        \"address\": \"700 MO-25, Bloomfield, MO 63825, USA\",\n                    },\n                    \"end_location\": {\n                        \"address\": \"700 MO-25, Bloomfield, MO 63825, USA\",\n                    },\n                    \"shift_start\": \"09:00\",\n                    \"shift_end\": \"17:00\",\n                    \"phone_number\": \"+15735682643\",\n                    \"speed\": 1,\n                    \"capacity\": 35\n                },\n                {\n                    \"name\": \"Advance Pharmacy\",\n                    \"start_location\": {\n                        \"address\": \"110 N Oak St, Advance, MO 63730, USA\",\n                    },\n                    \"end_location\": {\n                        \"address\": \"110 N Oak St, Advance, MO 63730, USA\",\n                    },\n                    \"shift_start\": \"09:00\",\n                    \"shift_end\": \"17:00\",\n                    \"phone_number\": \"+15737223562\",\n                    \"speed\": 1,\n                    \"capacity\": 35\n                },\n                {\n                    \"name\": \"Chaffee Medicap Pharmacy\",\n                    \"start_location\": {\n                        \"address\": \"211 W Yoakum Ave, Chaffee, MO 63740, USA\",\n                    },\n                    \"end_location\": {\n                        \"address\": \"211 W Yoakum Ave, Chaffee, MO 63740, USA\",\n                    },\n                    \"shift_start\": \"09:00\",\n                    \"shift_end\": \"17:00\",\n                    \"phone_number\": \"+15738872622\",\n                    \"speed\": 1,\n                    \"capacity\": 35\n                },\n            ],\n            \"stops\": [\n                {\n                    \"name\": \"Jane Doe\",\n                    \"location\": {\n                        \"address\": \"24898 State Hwy AB, Essex, MO 63846\"\n                    },\n                    \"duration\": 3,\n                    \"load\": 1,\n                    \"priority\": true,\n                    \"phone_number\": \"+16046204589\",\n                    \"email\": \"jane@doe.com\",\n                    \"notes\": \"Press 304 at buzzer.\",\n                    \"custom_notes\": {}\n                },\n                {\n                    \"name\": \"Jane Doe\",\n                    \"location\": {\n                        \"address\": \"25021 Walnut St, Bell City, MO 63735\"\n                    },\n                    \"duration\": 3,\n                    \"load\": 1,\n                    \"priority\": true,\n                    \"phone_number\": \"+16046204589\",\n                    \"email\": \"jane@doe.com\",\n                    \"notes\": \"Press 304 at buzzer.\",\n                    \"custom_notes\": {}\n                }\n            ],\n            \"settings\": {\n                \"max_stop_lateness\": 320,\n                \"max_driver_overtime\": 320,\n                \"shortest_distance\": true,\n                \"traffic\": 1.4,\n                \"strict_start\": true,\n                \"auto_balance\": true,\n                \"default_load\": 1,\n                \"default_duration\": 10\n            }\n        }\n    \n        bodyParameters.stops.push({\n            \"name\": event.body.name,\n            \"location\": {\n                \"address\": event.body.address\n            },\n            \"duration\": 3,\n            \"load\": 1,\n            \"priority\": true,\n            \"phone_number\": \"+16046204589\",\n            \"email\": \"jane@doe.com\",\n            \"notes\": \"Press 304 at buzzer.\",\n            \"custom_notes\": {}\n        })\n    \n        axios.post(\n            //'https://product-api.routific.com/v1.0/project',\n            'https://api.routific.com/v1/vrp',\n            bodyParameters,\n            config)\n            .then(function (response) {\n                callback(null, { \"message\": JSON.stringify(response) });\n            })\n            .catch(function (error) {\n                callback(null, { \"message\": error });\n            });\n    */\n\n    visits.map((visit) => {\n        vrp.addVisit(visit.id, visit);\n    })\n\n    // Step 5: Add your vehicles\n    const vehicles = [\n        {\n            name: \"L & S Pharmacy\",\n            start_location: {\n                address: \"406 S Main St, Charleston, MO 63834, USA\",\n            },\n            end_location: {\n                address: \"406 S Main St, Charleston, MO 63834, USA\",\n            },\n            shift_start: \"09:00\",\n            shift_end: \"17:00\",\n            phone_number: \"+15736833307\",\n            speed: 1,\n            capacity: 35\n        }\n    ]\n\n    vehicles.map((vehicle) => {\n        vrp.addVehicle(vehicle.id, vehicle);\n    })\n\n    // Step 6: Add traffic speed\n    vrp.addOption(\"traffic\", \"slow\");\n\n    // Step 7: Send request\n    client.route(vrp, (err, solution, jobId) => {\n        if (err) {\n            console.log(\"An error occurred\");\n            console.log(err);\n            callback(null, {\"error\": err});\n        } else if (solution.status == \"success\") {\n            console.log(\"Solution is:\")\n            callback(null, {\"message\": JSON.stringify(solution)});\n            console.log(JSON.stringify(solution))\n            //ref.set(solution)\n        }\n    })\n\n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": [],
+        "testCases": {
+          "5bfa2de5-00c0-4bfd-85d1-baa27e344baa": {
+            "id": "5bfa2de5-00c0-4bfd-85d1-baa27e344baa",
+            "name": "Unnamed event",
+            "functionId": "542dfa80-bbe8-47ca-9422-4a25763be8f9",
+            "event": "{\n    \"body\": {\n        \"name\": \"Jeffrey Bekah Davis\",\n        \"address\": \"906 Vanduser St, Vanduser, MO 63784\" \n    }\n}"
+          }
+        }
+      },
+      "9a766ac7-ddba-4b56-a1b6-945c06bf7497": {
+        "id": "9a766ac7-ddba-4b56-a1b6-945c06bf7497",
+        "parent": "c929395e-612c-4372-aa62-731f37087b89",
+        "name": "test.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "healthhack2019/test.js",
+        "code": "exports.handler = function(event, context, callback) {\n    \n    callback(null, {\"message\": \"Successfully executed\"});\n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": [],
+        "testCases": {
+          "c3124177-36a4-43d7-9703-2d789a8ed76d": {
+            "id": "c3124177-36a4-43d7-9703-2d789a8ed76d",
+            "name": "Unnamed event",
+            "functionId": "9a766ac7-ddba-4b56-a1b6-945c06bf7497",
+            "event": "{\n    \"key1\": \"value1\",\n    \"key2\": \"value2\",\n    \"key3\": \"value3\"\n}"
+          }
+        }
+      },
+      "294bf969-768f-49f2-be20-264e55d77c19": {
+        "id": "294bf969-768f-49f2-be20-264e55d77c19",
+        "parent": "c929395e-612c-4372-aa62-731f37087b89",
+        "name": "key.json",
+        "type": "JSON_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "healthhack2019/key.json",
+        "code": "{\n  \"type\": \"service_account\",\n  \"project_id\": \"healthhack2019-e97d2\",\n  \"private_key_id\": \"c18b24fec71e06261126ccc96e30a4bce5ddeaa8\",\n  \"private_key\": \"-----BEGIN PRIVATE KEY-----\\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCsj/4WUL4Qg/h5\\nipekL/dLKuMF6IZwTevY6wNoaFAS3VoUSYqepdgZKRDuDnMuLbUoX+E49FHYCJGD\\noCv5p5habLqDDL60te+93Iu0biVch+RxVCbKqPJggHW3C/JXOx8HMAvVFtGb1Z6K\\nNiR7Lyib8TffCrlT6CaSlLY6S+VK0kZ7kaU5/ez+PJ098qJ2RUWW+Wtk9HrCF8Jj\\nUsfyBqpF7J9ubFzBoMcHlDF1rl2eRRv22qdQzwob1z7nkD9NDtEjYZXevRT5NGPQ\\nS5GeeOMMJVR2JlQQYM1rowVtU2NE7UfGJCreEh+HwDVt+ln6BM/eiWB/qC68XZGV\\nFhLjfz6bAgMBAAECggEAFdKf73KGltAZvEUqqDjorTjfPQALAGjaSrRt2eZXOguE\\nOMyUGzwd+BCZc4GgT1a4ckKt2OYM86UhweOfrBLl0YmujKQv+eqIRxp9EHRdhTYq\\nTaq2vSpgfJPCT0PTgfSYF/Cbjnc0SuDZC+GM+4cbO51l028nwNS7DA6CfRzcAnof\\noZR5BHmrDTGsxcFWOm2wpQc4ZjvDDZ9hFpMTNcEqytqYf/ZknY2MhKHgFxf0Wznn\\nMIgW3ak/rB4ChiPamVm2hlvucQo4dv4zkVo8m1VpABGd7NvVQQQB39YJo4f3ZfVq\\nFCmD4a+Ui8ChcJcDplMWqVAxvrKD19ioYQBTtTJmAQKBgQDtY7fa3HJGPUiuc9vv\\nMLVwTZIzycMxRUbpc6NnmwYvop594a4gfVh1LOZI5PC9KqC6Jx+e5YyXNqP5HXla\\n+FC+h2EYjPHociskDk5INyw0qaz3QPg+z61QEpOVcqOLCu8lkH7Q8T+aac5qLuoe\\nwWQuf15bJTCZ2875tOeeJH3tAwKBgQC6FzrSfZYLXDxGCOlbbvRPRbNnn4MJ8GKt\\nwZhXK97bIaf5MVlGhfIEMjQv8tb40Rnt2CeHv0V/FbRNkY16qCFpln1gQTebMVUH\\n7Q2onRsgYKjbxa6DEHoSeuqSxcHK8m5RW5bFUQosTbkL8zA5U5nN9i8gka/XxP1J\\n/JOfklZ4iQKBgQCiuJbfW/qs8PcwNdTNWWsVhuavvx6gWGdqQM0CiL4tyt+vVBIi\\nzSjkcRmNX/kxAdZYo9bF+X1sbZTqfuyfkdTvNSc2R+7OMewmc/PvBnqzwpcAiTVh\\nAMRBPeqSJ5m5Bo61Bh4XpTa+5sYJ/QyYdmHwiXgpLA3reUOf4QRfX4499wKBgEBL\\nVFxzXYrxRDXiUFXx4OEesNyFhS3C6yUjdTHxC19kond7cF/oWXTPr649Vb7D6BSA\\nETBainVdF12Rg3M0cc7cWtcN0VuCUOGbKpPuK/gkzVKZWzEXWUXXSAKL5ufqmOjt\\nHwtvc3dZJy0Uyb2Uv9gkTaYQD9QZ0HVmmc6RLeUZAoGATFf5sGiahTqv/fyT3oR3\\nkkOqOtEjLrhFqiGHWve5v11LoVOMfghAIeL6gJKyXsmJqopLlq5SxlCbr5e1A9jC\\nuBEdfZm91q4fMJfDrJy0aKdemN+KmGmYNZ0U2nGvmtEIcbc+jy0kqf+3YiJHmrd/\\nAAqy2AUXhgtprDKAMvFgkRY=\\n-----END PRIVATE KEY-----\\n\",\n  \"client_email\": \"firebase-adminsdk-1ab6j@healthhack2019-e97d2.iam.gserviceaccount.com\",\n  \"client_id\": \"101448126682062111025\",\n  \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",\n  \"token_uri\": \"https://oauth2.googleapis.com/token\",\n  \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",\n  \"client_x509_cert_url\": \"https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-1ab6j%40healthhack2019-e97d2.iam.gserviceaccount.com\"\n}\n"
+      },
+      "9ae600ab-8911-494e-8c82-b0dc4c7a6983": {
+        "id": "9ae600ab-8911-494e-8c82-b0dc4c7a6983",
+        "parent": "c929395e-612c-4372-aa62-731f37087b89",
+        "name": "getData.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "healthhack2019/getData.js",
+        "code": "const admin = require(\"firebase-admin\");\n// Fetch the service account key JSON file contents\nconst serviceAccount = require(\"./key.json\");\n\n// Initialize the app with a service account, granting admin privileges\nadmin.initializeApp({\n  credential: admin.credential.cert(serviceAccount),\n  databaseURL: \"https://healthhack2019-e97d2.firebaseio.com/\"\n});\n\n// As an admin, the app has access to read and write all data, regardless of Security Rules\nconst db = admin.database();\nconst ref = db.ref(\"\");\n\nexports.handler = function(event, context, callback) {\n    ref.on(\"pharmacies\", function(snapshot) {\n  console.log(snapshot.val());\n  callback(null, {\"message\": snapshot.val()});\n}, function (errorObject) {\n  console.log(\"The read failed: \" + errorObject.code);\n  callback(null, {\"error\": errorObject.code});\n});\n    \n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": [],
+        "testCases": {
+          "dc39b1ba-3e6d-41f0-baf6-14c59d7e0e83": {
+            "id": "dc39b1ba-3e6d-41f0-baf6-14c59d7e0e83",
+            "name": "Unnamed event",
+            "functionId": "9ae600ab-8911-494e-8c82-b0dc4c7a6983",
+            "event": "{\n    \"key1\": \"value1\",\n    \"key2\": \"value2\",\n    \"key3\": \"value3\"\n}"
+          }
+        }
+      }
+    },
+    "deletedFiles": [
+      "healthhack2019/healthhack2019-e97d2-firebase-adminsdk-1ab6j-c18b24fec7.json"
+    ],
+    "rootNode": "c929395e-612c-4372-aa62-731f37087b89",
+    "openFiles": [
+      "9a766ac7-ddba-4b56-a1b6-945c06bf7497",
+      "294bf969-768f-49f2-be20-264e55d77c19",
+      "9ae600ab-8911-494e-8c82-b0dc4c7a6983",
+      "542dfa80-bbe8-47ca-9422-4a25763be8f9"
+    ],
+    "currentFileId": "542dfa80-bbe8-47ca-9422-4a25763be8f9",
+    "resources": {},
+    "customTemplate": {
+      "dialect": null,
+      "definitions": {}
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {
+        "routific": {
+          "name": "routific",
+          "version": "0.0.3",
+          "language": "javascript"
+        },
+        "axios": {
+          "name": "axios",
+          "version": "0.19.0",
+          "language": "javascript"
+        },
+        "firebase-admin": {
+          "name": "firebase-admin",
+          "version": "8.2.0",
+          "language": "javascript"
+        }
+      }
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "healthhack2019",
+    "projectDescription": "",
+    "projectVersion": "1.0.0",
+    "projectRegion": "us-east-1",
+    "platform": "AWS",
+    "platformRegions": {},
+    "lastSave": 1563665289056
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "healthhack2019",
+      "url": "https://github.com/dewpey/healthhack2019"
+    }
+  }
+}
