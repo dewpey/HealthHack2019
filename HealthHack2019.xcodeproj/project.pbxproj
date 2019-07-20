@@ -24,6 +24,9 @@
 		0D6ADB1F22E34BC9001445F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0D6ADB2222E34BC9001445F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0D6ADB2422E34BC9001445F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0D6ADB2B22E35E9D001445F3 /* WorkSans-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Medium.ttf"; sourceTree = "<group>"; };
+		0D6ADB2C22E35E9D001445F3 /* WorkSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Regular.ttf"; sourceTree = "<group>"; };
+		0D6ADB2D22E35F1C001445F3 /* IBMPlexSans-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-Medium.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +59,7 @@
 		0D6ADB1422E34BC7001445F3 /* HealthHack2019 */ = {
 			isa = PBXGroup;
 			children = (
+				0D6ADB2A22E35E87001445F3 /* fonts */,
 				0D6ADB1522E34BC7001445F3 /* AppDelegate.swift */,
 				0D6ADB1722E34BC7001445F3 /* ViewController.swift */,
 				0D6ADB1922E34BC7001445F3 /* Main.storyboard */,
@@ -65,6 +69,16 @@
 				0D6ADB1C22E34BC7001445F3 /* HealthHack2019.xcdatamodeld */,
 			);
 			path = HealthHack2019;
+			sourceTree = "<group>";
+		};
+		0D6ADB2A22E35E87001445F3 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				0D6ADB2D22E35F1C001445F3 /* IBMPlexSans-Medium.ttf */,
+				0D6ADB2B22E35E9D001445F3 /* WorkSans-Medium.ttf */,
+				0D6ADB2C22E35E9D001445F3 /* WorkSans-Regular.ttf */,
+			);
+			path = fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
