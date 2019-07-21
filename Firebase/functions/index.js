@@ -11,7 +11,6 @@ admin.initializeApp({
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDMzNTVlMTc2ODM0YjdhOWZhM2Y1ZDMiLCJpYXQiOjE1NjM2NDU0MDl9.z-gI7dkl-6f-9UrqlBoe-52tq8j-rNEjtTBzn1oWUCE'
 const options = {
   token: token
 }
