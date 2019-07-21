@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreData
+import Firebase
+import ApiAI
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +19,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        FirebaseApp.configure()
+        let configuration = AIDefaultConfiguration()
+        configuration.clientAccessToken = "8dde572b7f804b368ad9d79f635a81f9"
+        
+        let apiai = ApiAI.shared()
+        apiai?.configuration = configuration
         return true
     }
 

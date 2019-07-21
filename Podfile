@@ -6,5 +6,12 @@ target 'HealthHack2019' do
   use_frameworks!
 
   # Pods for HealthHack2019
+pod 'Firebase/Analytics'
+pod 'Firebase/Database'
+pod 'MessageKit'
+pod 'MessageInputBar'
+pod 'ApiAI'
+pod 'Alamofire'
+pod 'NotificationBannerSwift'
 
 end
